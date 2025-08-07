@@ -1,3 +1,4 @@
+```css
 /* Reset e configurações base */
 * {
     margin: 0;
@@ -33,23 +34,32 @@ body {
     overflow: hidden;
 }
 
+/* Ícones do header modificados - Corinthians e Bitcoin */
 .header::before {
-    content: '⚽';
+    content: '';
     position: absolute;
     top: 20px;
     left: 20px;
-    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    background: url('imagem-corinthians-oficial.png') no-repeat center;
+    background-size: contain;
     animation: bounce 2s ease-in-out infinite;
+    z-index: 10;
 }
 
 .header::after {
-    content: '🏓';
+    content: '';
     position: absolute;
     top: 20px;
     right: 20px;
-    font-size: 2rem;
+    width: 50px;
+    height: 50px;
+    background: url('imagem-bitcoin-oficial.png') no-repeat center;
+    background-size: contain;
     animation: bounce 2s ease-in-out infinite;
     animation-delay: 0.5s;
+    z-index: 10;
 }
 
 .header h1 {
@@ -77,6 +87,8 @@ body {
     font-weight: bold;
     font-size: 1.1rem;
     animation: pulse 3s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.2s ease;
 }
 
 /* Grid de conteúdo */
@@ -132,25 +144,60 @@ body {
     gap: 10px;
 }
 
-/* Ícones personalizados */
+/* Ícones personalizados - MELHORADOS para maior visibilidade */
 .card-icon {
-    width: 40px;
-    height: 40px;
+    width: 60px;
+    height: 60px;
     object-fit: contain;
     cursor: pointer;
-    transition: transform 0.3s ease;
+    transition: all 0.3s ease;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
+    border-radius: 8px;
+    padding: 5px;
 }
 
 .card-icon:hover {
-    transform: scale(1.1);
+    transform: scale(1.2);
+}
+
+.corinthians-icon {
+    background: rgba(0, 0, 0, 0.05);
+    border: 2px solid #000000;
 }
 
 .corinthians-icon:hover {
-    filter: drop-shadow(0 0 10px #000000);
+    filter: drop-shadow(0 0 15px #000000);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.bitcoin-icon {
+    background: rgba(247, 147, 26, 0.05);
+    border: 2px solid #f7931a;
 }
 
 .bitcoin-icon:hover {
-    filter: drop-shadow(0 0 10px #f7931a);
+    filter: drop-shadow(0 0 15px #f7931a);
+    background: rgba(247, 147, 26, 0.1);
+}
+
+.pickleball-icon {
+    font-size: 3rem !important;
+    padding: 10px;
+    background: rgba(76, 175, 80, 0.05);
+    border: 2px solid #4CAF50;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+}
+
+.pickleball-icon:hover {
+    transform: scale(1.2);
+    background: rgba(76, 175, 80, 0.1);
+    filter: drop-shadow(0 0 15px #4CAF50);
 }
 
 /* Carrossel de fotos */
@@ -198,22 +245,6 @@ body {
     opacity: 1;
 }
 
-.corinthians-card .card-icon {
-    color: #000000;
-}
-
-.bitcoin-card .card-icon {
-    color: #f7931a;
-}
-
-.pickleball-card .card-icon {
-    color: #4CAF50;
-}
-
-.memories-card .card-icon {
-    color: #e74c3c;
-}
-
 /* Lista de memórias */
 .memories-list {
     list-style: none;
@@ -229,6 +260,8 @@ body {
     transform: scale(0);
     animation: popIn 0.5s ease-out forwards;
     animation-delay: calc(var(--delay) * 0.1s);
+    transition: transform 0.3s ease;
+    cursor: pointer;
 }
 
 .corinthians-memory {
@@ -247,7 +280,37 @@ body {
     background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%);
 }
 
-/* Remove os placeholders antigos */
+/* NOVA SEÇÃO DE VÍDEO */
+.video-section {
+    margin: 40px 0;
+    text-align: center;
+}
+
+.video-container {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    border: 3px solid #e74c3c;
+    animation: fadeInUp 1s ease-out;
+}
+
+.video-container h2 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.special-video {
+    width: 100%;
+    max-width: 800px;
+    height: auto;
+    border-radius: 15px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 2px solid #e74c3c;
+}
 
 /* Caixa de mensagem */
 .message-box {
@@ -276,6 +339,11 @@ body {
     padding: 15px;
     border-radius: 10px;
     text-align: center;
+    transition: transform 0.2s ease;
+}
+
+.stat-item:hover {
+    transform: scale(1.05);
 }
 
 .stat-number {
@@ -316,6 +384,12 @@ body {
 .heart {
     color: #e74c3c;
     animation: heartbeat 1.5s ease-in-out infinite;
+    cursor: pointer;
+    transition: transform 0.2s ease;
+}
+
+.heart:hover {
+    transform: scale(1.2);
 }
 
 /* Ícones flutuantes */
@@ -395,6 +469,12 @@ body {
 
 /* Responsividade */
 @media (max-width: 768px) {
+    .header::before,
+    .header::after {
+        width: 35px;
+        height: 35px;
+    }
+    
     .header h1 {
         font-size: 2.5rem;
     }
@@ -411,7 +491,31 @@ body {
         padding: 20px;
     }
     
+    .card-icon {
+        width: 50px;
+        height: 50px;
+    }
+    
+    .pickleball-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 2.5rem !important;
+    }
+    
     .stats-grid {
         grid-template-columns: 1fr;
     }
+    
+    .video-container h2 {
+        font-size: 2rem;
+    }
+    
+    .special-video {
+        max-width: 100%;
+    }
+    
+    .floating-icon {
+        font-size: 1.5rem;
+    }
 }
+```

@@ -1,8 +1,11 @@
+```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Feliz Dia dos Pais - Homenagem especial para o melhor pai: Corinthiano, Bitcoiner e Atleta!">
+    <meta name="author" content="Filho amoroso">
     <title>Feliz Dia dos Pais - Pai Corinthiano, Bitcoiner e Atleta!</title>
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -30,15 +33,18 @@
         
         <div class="content-grid">
             <div class="card corinthians-card">
-                <h2><img src="imagem-corinthians-oficial.png" alt="Corinthians" class="card-icon corinthians-icon"> Paixão Corinthiana</h2>
+                <h2>
+                    <img src="imagem-corinthians-oficial.png" alt="Escudo do Corinthians" class="card-icon corinthians-icon" title="Clique para ouvir o hino!"> 
+                    Paixão Corinthiana
+                </h2>
                 <div class="photo-carousel corinthians-carousel">
                     <div class="carousel-container">
-                        <img src="imagem-pai8.jpg" alt="Família Corinthiana" class="carousel-photo active">
-                        <img src="imagem-pai6.jpg" alt="Aventureiros" class="carousel-photo">
-                        <img src="imagem-pai5.jpg" alt="Paisagem" class="carousel-photo">
-                        <img src="imagem-pai11vo.jpg" alt="Paisagem" class="carousel-photo">
-                        <img src="imagem-pai9pedro.jpg" alt="Paisagem" class="carousel-photo">
-                        <img src="imagem-pai10lucas.jpg" alt="Paisagem" class="carousel-photo">
+                        <img src="imagem-pai8.jpg" alt="Família Corinthiana - Momento especial em família" class="carousel-photo active">
+                        <img src="imagem-pai6.jpg" alt="Aventureiros - Explorando novos lugares" class="carousel-photo">
+                        <img src="imagem-pai5.jpg" alt="Paisagem - Apreciando a natureza" class="carousel-photo">
+                        <img src="imagem-pai11vo.jpg" alt="Memória especial com o vô" class="carousel-photo">
+                        <img src="imagem-pai9pedro.jpg" alt="Momento com Pedro" class="carousel-photo">
+                        <img src="imagem-pai10lucas.jpg" alt="Momento com Lucas" class="carousel-photo">
                     </div>
                 </div>
                 <div class="stats-grid">
@@ -59,12 +65,15 @@
             </div>
             
             <div class="card bitcoin-card">
-                <h2><img src="imagem-bitcoin-oficial.png" alt="Bitcoin" class="card-icon bitcoin-icon"> Bitcoin Enthusiast</h2>
+                <h2>
+                    <img src="imagem-bitcoin-oficial.png" alt="Logo do Bitcoin" class="card-icon bitcoin-icon" title="Clique para ouvir o som do Bitcoin!"> 
+                    Bitcoin Enthusiast
+                </h2>
                 <div class="photo-carousel bitcoin-carousel">
                     <div class="carousel-container">
-                        <img src="imagem-pai.jpg" alt="Estudos Bitcoin" class="carousel-photo active">
-                        <img src="imagem-pai3.jpeg" alt="Relaxando" class="carousel-photo">
-                        <img src="imagem-pai7.jpg" alt="Ambiente elegante" class="carousel-photo">
+                        <img src="imagem-pai.jpg" alt="Estudos Bitcoin - Sempre aprendendo sobre criptomoedas" class="carousel-photo active">
+                        <img src="imagem-pai3.jpeg" alt="Relaxando - Momento de descanso" class="carousel-photo">
+                        <img src="imagem-pai7.jpg" alt="Ambiente elegante - Estilo e sofisticação" class="carousel-photo">
                     </div>
                 </div>
                 <div class="stats-grid">
@@ -85,12 +94,12 @@
             </div>
             
             <div class="card pickleball-card">
-                <h2><span class="card-icon">🏓</span> Atleta de Pickleball</h2>
+                <h2><span class="card-icon pickleball-icon">🏓</span> Atleta de Pickleball</h2>
                 <div class="photo-carousel pickleball-carousel">
                     <div class="carousel-container">
-                        <img src="imagem-pickleball1.jpg" alt="Momento especial" class="carousel-photo active">
-                        <img src="imagem-pickleball2.jpg" alt="Aventura no barco" class="carousel-photo">
-                        <img src="imagem-pickleball3.jpg" alt="Família unida" class="carousel-photo">
+                        <img src="imagem-pickleball1.jpg" alt="Momento especial no pickleball" class="carousel-photo active">
+                        <img src="imagem-pickleball2.jpg" alt="Aventura no barco - Diversão garantida" class="carousel-photo">
+                        <img src="imagem-pickleball3.jpg" alt="Família unida - Momentos preciosos" class="carousel-photo">
                     </div>
                 </div>
                 <div class="stats-grid">
@@ -122,6 +131,18 @@
             </div>
         </div>
         
+        <!-- Vídeo especial antes da mensagem final -->
+        <div class="video-section">
+            <div class="video-container">
+                <h2>Uma mensagem especial para você! 🎥</h2>
+                <video controls class="special-video" preload="metadata">
+                    <source src="video-vo.mp4" type="video/mp4">
+                    <source src="video-dia-dos-pais.webm" type="video/webm">
+                    Seu navegador não suporta o elemento de vídeo.
+                </video>
+            </div>
+        </div>
+        
         <div class="footer">
             <div class="message-box">
                 "Pai, você é incrível! Corinthiano de coração 🖤🤍, visionário com Bitcoin ₿, atleta no pickleball 🏓 e sempre estudando para evoluir! Seu exemplo de paixão, dedicação e busca pelo conhecimento me inspira todos os dias. Você não é apenas meu pai, é meu herói em todas as áreas da vida!"
@@ -135,11 +156,16 @@
     <!-- Áudios -->
     <audio id="hino-corinthians" preload="auto">
         <source src="hino-corinthians.mp3" type="audio/mpeg">
+        <source src="hino-corinthians.ogg" type="audio/ogg">
+        Seu navegador não suporta áudio.
     </audio>
     <audio id="bitcoin-cash" preload="auto">
         <source src="cash-register.mp3" type="audio/mpeg">
+        <source src="cash-register.ogg" type="audio/ogg">
+        Seu navegador não suporta áudio.
     </audio>
 
     <script src="js/script.js"></script>
 </body>
 </html>
+```
