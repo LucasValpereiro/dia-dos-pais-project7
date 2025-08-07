@@ -22,8 +22,8 @@ function startPhotoCarousels() {
 function setupAudioInteractions() {
     const corinthiansIcon = document.querySelector('.corinthians-icon');
     const bitcoinIcon = document.querySelector('.bitcoin-icon');
-    const hinoAudio = document.getElementById('hino-corinthians');
-    const bitcoinAudio = document.getElementById('bitcoin-cash');
+    const hinoAudio = document.getElementById('hino-corinthians.mp3');
+    const bitcoinAudio = document.getElementById('cash-register.mp3');
     
     // Clique no ícone do Corinthians
     if (corinthiansIcon && hinoAudio) {
