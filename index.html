@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -34,7 +33,7 @@
         <div class="content-grid">
             <div class="card corinthians-card">
                 <h2>
-                    <img src="imagem-corinthians-oficial.png" alt="Escudo do Corinthians" class="card-icon corinthians-icon" title="Clique para ouvir o hino!"> 
+                    <img src="imagem-corinthians-oficial.png" alt="Escudo do Corinthians" class="card-icon corinthians-icon" title="Clique para ouvir o hino!" id="corinthians-click"> 
                     Paixão Corinthiana
                 </h2>
                 <div class="photo-carousel corinthians-carousel">
@@ -66,7 +65,7 @@
             
             <div class="card bitcoin-card">
                 <h2>
-                    <img src="imagem-bitcoin-oficial.png" alt="Logo do Bitcoin" class="card-icon bitcoin-icon" title="Clique para ouvir o som do Bitcoin!"> 
+                    <img src="imagem-bitcoin-oficial.png" alt="Logo do Bitcoin" class="card-icon bitcoin-icon" title="Clique para ouvir o som do Bitcoin!" id="bitcoin-click"> 
                     Bitcoin Enthusiast
                 </h2>
                 <div class="photo-carousel bitcoin-carousel">
@@ -153,13 +152,13 @@
         </div>
     </div>
 
-    <!-- Áudios -->
-    <audio id="hino-corinthians" preload="auto">
+    <!-- Áudios com IDs corretos -->
+    <audio id="hino-corinthians" preload="auto" style="display: none;">
         <source src="hino-corinthians.mp3" type="audio/mpeg">
         <source src="hino-corinthians.ogg" type="audio/ogg">
         Seu navegador não suporta áudio.
     </audio>
-    <audio id="bitcoin-cash" preload="auto">
+    <audio id="bitcoin-cash" preload="auto" style="display: none;">
         <source src="cash-register.mp3" type="audio/mpeg">
         <source src="cash-register.ogg" type="audio/ogg">
         Seu navegador não suporta áudio.
@@ -168,4 +167,3 @@
     <script src="js/script.js"></script>
 </body>
 </html>
-```

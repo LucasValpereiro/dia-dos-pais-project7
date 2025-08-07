@@ -1,44 +1,226 @@
-// Carrossel de fotos - CORRIGIDO E MELHORADO
+// CARROSSEL DE FOTOS - COMPLETAMENTE REESCRITO PARA FUNCIONAR
 function startPhotoCarousels() {
+    console.log('🎯 Iniciando carrossel de fotos...');
+    
     const carousels = document.querySelectorAll('.photo-carousel');
+    
+    if (carousels.length === 0) {
+        console.log('❌ Nenhum carrossel encontrado!');
+        return;
+    }
     
     carousels.forEach((carousel, carouselIndex) => {
         const photos = carousel.querySelectorAll('.carousel-photo');
         let currentIndex = 0;
         
-        console.log(`Carrossel ${carouselIndex + 1} iniciado com ${photos.length} fotos`);
+        console.log(`📷 Carrossel ${carouselIndex + 1}: ${photos.length} fotos encontradas`);
         
-        // Garante que apenas a primeira foto está ativa inicialmente
+        if (photos.length === 0) {
+            console.log(`❌ Carrossel ${carouselIndex + 1}: Nenhuma foto encontrada!`);
+            return;
+        }
+        
+        // FORÇA todas as fotos para opacidade 0 primeiro
         photos.forEach((photo, index) => {
-            photo.classList.toggle('active', index === 0);
+            photo.style.opacity = '0';
+            photo.classList.remove('active');
         });
         
-        // Função para mudar foto
+        // Mostra apenas a primeira foto
+        if (photos[0]) {
+            photos[0].style.opacity = '1';
+            photos[0].classList.add('active');
+            console.log(`✅ Carrossel ${carouselIndex + 1}: Primeira foto ativada`);
+        }
+        
+        // Função para trocar foto
         const changePhoto = () => {
-            if (photos.length > 1) {
-                // Remove classe active da foto atual
-                photos[currentIndex].classList.remove('active');
-                
-                // Avança para próxima foto
-                currentIndex = (currentIndex + 1) % photos.length;
-                
-                // Adiciona classe active na nova foto
+            console.log(`🔄 Carrossel ${carouselIndex + 1}: Trocando da foto ${currentIndex + 1} para ${((currentIndex + 1) % photos.length) + 1}`);
+            
+            // Remove ativa atual
+            photos[currentIndex].style.opacity = '0';
+            photos[currentIndex].classList.remove('active');
+            
+            // Próxima foto
+            currentIndex = (currentIndex + 1) % photos.length;
+            
+            // Ativa próxima foto
+            setTimeout(() => {
+                photos[currentIndex].style.opacity = '1';
                 photos[currentIndex].classList.add('active');
-                
-                console.log(`Carrossel ${carouselIndex + 1}: Foto ${currentIndex + 1} de ${photos.length}`);
-            }
+            }, 100);
         };
         
-        // Inicia troca de fotos a cada 4 segundos
-        if (photos.length > 1) {
-            setInterval(changePhoto, 4000);
-        }
+        // Inicia o intervalo para troca automática a cada 4 segundos
+        const intervalId = setInterval(changePhoto, 4000);
+        
+        console.log(`✅ Carrossel ${carouselIndex + 1}: Intervalo configurado (ID: ${intervalId})`);
+        
+        // Salva o ID do intervalo no elemento para possível cleanup
+        carousel.setAttribute('data-interval-id', intervalId);
     });
+    
+    console.log('🎯 Todos os carrosséis iniciados!');
 }
 
-// Função para mostrar mensagens visuais quando áudio não funciona
+// ÁUDIO INTERATIVO - COMPLETAMENTE REESCRITO PARA FUNCIONAR
+function setupAudioInteractions() {
+    console.log('🎵 Configurando áudios...');
+    
+    // Aguarda um pouco para garantir que o DOM está totalmente carregado
+    setTimeout(() => {
+        // BUSCA POR MÚLTIPLOS SELETORES PARA GARANTIR QUE ENCONTRE
+        const corinthiansIcon = document.querySelector('.corinthians-icon') || 
+                              document.querySelector('#corinthians-click') || 
+                              document.querySelector('img[src*="corinthians"]');
+                              
+        const bitcoinIcon = document.querySelector('.bitcoin-icon') || 
+                           document.querySelector('#bitcoin-click') || 
+                           document.querySelector('img[src*="bitcoin"]');
+        
+        // BUSCA OS ÁUDIOS
+        const hinoAudio = document.getElementById('hino-corinthians');
+        const bitcoinAudio = document.getElementById('bitcoin-cash');
+        
+        console.log('🔍 Elementos encontrados:');
+        console.log('Ícone Corinthians:', corinthiansIcon);
+        console.log('Ícone Bitcoin:', bitcoinIcon);
+        console.log('Áudio Hino:', hinoAudio);
+        console.log('Áudio Bitcoin:', bitcoinAudio);
+        
+        // FUNÇÃO PARA TENTAR TOCAR ÁUDIO
+        function tentarTocarAudio(audio, nome) {
+            if (!audio) {
+                console.log(`❌ Áudio ${nome} não encontrado!`);
+                return false;
+            }
+            
+            console.log(`🎵 Tentando tocar ${nome}...`);
+            
+            // Para e reseta o áudio
+            audio.pause();
+            audio.currentTime = 0;
+            
+            // Tenta tocar
+            const playPromise = audio.play();
+            
+            if (playPromise !== undefined) {
+                playPromise
+                    .then(() => {
+                        console.log(`✅ ${nome} tocando com sucesso!`);
+                        showAudioMessage(`🎵 ${nome} está tocando! 🎵`);
+                    })
+                    .catch(error => {
+                        console.log(`❌ Erro ao tocar ${nome}:`, error);
+                        showAudioMessage(`🎵 ${nome} - Clique para permitir áudio! 🎵`);
+                    });
+            }
+            
+            return true;
+        }
+        
+        // CONFIGURAR CLIQUE NO ÍCONE DO CORINTHIANS
+        if (corinthiansIcon) {
+            console.log('🖤 Configurando clique do Corinthians...');
+            
+            corinthiansIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('🖤 CLICOU NO CORINTHIANS! 🤍');
+                
+                // Para o bitcoin se estiver tocando
+                if (bitcoinAudio) {
+                    bitcoinAudio.pause();
+                    bitcoinAudio.currentTime = 0;
+                }
+                
+                // Toca o hino
+                const sucesso = tentarTocarAudio(hinoAudio, 'Hino do Corinthians');
+                
+                if (!sucesso) {
+                    showAudioMessage('🎵 Vai Corinthians! 🖤🤍');
+                }
+                
+                // Efeito visual
+                corinthiansIcon.style.transform = 'scale(1.3) rotate(5deg)';
+                corinthiansIcon.style.filter = 'drop-shadow(0 0 20px #000000)';
+                setTimeout(() => {
+                    corinthiansIcon.style.transform = 'scale(1)';
+                    corinthiansIcon.style.filter = 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))';
+                }, 300);
+            });
+            
+            // Adiciona cursor pointer
+            corinthiansIcon.style.cursor = 'pointer';
+            console.log('✅ Clique do Corinthians configurado!');
+        } else {
+            console.log('❌ Ícone do Corinthians NÃO encontrado!');
+        }
+        
+        // CONFIGURAR CLIQUE NO ÍCONE DO BITCOIN
+        if (bitcoinIcon) {
+            console.log('₿ Configurando clique do Bitcoin...');
+            
+            bitcoinIcon.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('₿ CLICOU NO BITCOIN! 🚀');
+                
+                // Para o hino se estiver tocando
+                if (hinoAudio) {
+                    hinoAudio.pause();
+                    hinoAudio.currentTime = 0;
+                }
+                
+                // Toca o som do bitcoin
+                const sucesso = tentarTocarAudio(bitcoinAudio, 'Som do Bitcoin');
+                
+                if (!sucesso) {
+                    showAudioMessage('💰 Cha-ching! To the moon! 🚀');
+                }
+                
+                // Efeito visual
+                bitcoinIcon.style.transform = 'scale(1.3) rotate(-5deg)';
+                bitcoinIcon.style.filter = 'drop-shadow(0 0 20px #f7931a)';
+                setTimeout(() => {
+                    bitcoinIcon.style.transform = 'scale(1)';
+                    bitcoinIcon.style.filter = 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))';
+                }, 300);
+            });
+            
+            // Adiciona cursor pointer
+            bitcoinIcon.style.cursor = 'pointer';
+            console.log('✅ Clique do Bitcoin configurado!');
+        } else {
+            console.log('❌ Ícone do Bitcoin NÃO encontrado!');
+        }
+        
+        // PRÉ-CARREGA OS ÁUDIOS
+        if (hinoAudio) {
+            hinoAudio.load();
+            hinoAudio.volume = 0.7;
+            console.log('🎵 Hino pré-carregado');
+        }
+        
+        if (bitcoinAudio) {
+            bitcoinAudio.load();
+            bitcoinAudio.volume = 0.7;
+            console.log('💰 Som do Bitcoin pré-carregado');
+        }
+        
+    }, 1000); // Aguarda 1 segundo para garantir que tudo carregou
+}
+
+// Função para mostrar mensagens visuais
 function showAudioMessage(message) {
+    console.log('📢 Mostrando mensagem:', message);
+    
+    // Remove mensagem anterior se existir
+    const existingMessage = document.querySelector('.audio-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
     const messageDiv = document.createElement('div');
+    messageDiv.className = 'audio-message';
     messageDiv.textContent = message;
     messageDiv.style.cssText = `
         position: fixed;
@@ -51,126 +233,42 @@ function showAudioMessage(message) {
         border-radius: 15px;
         font-size: 1.5rem;
         z-index: 9999;
-        animation: fadeInOut 3s ease-in-out;
         pointer-events: none;
+        animation: fadeInOut 3s ease-in-out;
+        border: 2px solid #f7931a;
+        text-align: center;
+        font-weight: bold;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
     `;
     
-    // Adiciona animação CSS
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes fadeInOut {
-            0%, 100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
-            20%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
-        }
-    `;
-    document.head.appendChild(style);
+    // Adiciona animação CSS se não existir
+    if (!document.querySelector('#audio-message-animation')) {
+        const style = document.createElement('style');
+        style.id = 'audio-message-animation';
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+                20%, 80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+                100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            }
+        `;
+        document.head.appendChild(style);
+    }
+    
     document.body.appendChild(messageDiv);
     
     setTimeout(() => {
-        document.body.removeChild(messageDiv);
-        document.head.removeChild(style);
+        if (messageDiv && messageDiv.parentNode) {
+            messageDiv.remove();
+        }
     }, 3000);
-}
-
-// Áudio interativo - CORRIGIDO E MELHORADO
-function setupAudioInteractions() {
-    const corinthiansIcon = document.querySelector('.corinthians-icon');
-    const bitcoinIcon = document.querySelector('.bitcoin-icon');
-    
-    // Seletores corretos para os elementos de áudio
-    const hinoAudio = document.getElementById('hino-corinthians');
-    const bitcoinAudio = document.getElementById('bitcoin-cash');
-    
-    console.log('Configurando interações de áudio...');
-    console.log('Ícone Corinthians:', corinthiansIcon);
-    console.log('Ícone Bitcoin:', bitcoinIcon);
-    console.log('Áudio Hino:', hinoAudio);
-    console.log('Áudio Bitcoin:', bitcoinAudio);
-    
-    // Clique no ícone do Corinthians
-    if (corinthiansIcon) {
-        corinthiansIcon.addEventListener('click', () => {
-            console.log('Clicou no ícone do Corinthians!');
-            
-            // Para outros áudios primeiro
-            if (bitcoinAudio) {
-                bitcoinAudio.pause();
-                bitcoinAudio.currentTime = 0;
-            }
-            
-            // Toca hino do Corinthians
-            if (hinoAudio) {
-                hinoAudio.currentTime = 0;
-                const playPromise = hinoAudio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            console.log('Hino do Corinthians tocando!');
-                        })
-                        .catch(error => {
-                            console.log('Erro ao tocar hino do Corinthians:', error);
-                            showAudioMessage('🎵 Vai Corinthians! 🖤🤍');
-                        });
-                }
-            } else {
-                showAudioMessage('🎵 Vai Corinthians! 🖤🤍');
-            }
-            
-            // Feedback visual melhorado
-            corinthiansIcon.style.transform = 'scale(1.3) rotate(5deg)';
-            corinthiansIcon.style.filter = 'drop-shadow(0 0 20px #000000)';
-            setTimeout(() => {
-                corinthiansIcon.style.transform = 'scale(1)';
-                corinthiansIcon.style.filter = 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))';
-            }, 300);
-        });
-    }
-    
-    // Clique no ícone do Bitcoin
-    if (bitcoinIcon) {
-        bitcoinIcon.addEventListener('click', () => {
-            console.log('Clicou no ícone do Bitcoin!');
-            
-            // Para outros áudios primeiro
-            if (hinoAudio) {
-                hinoAudio.pause();
-                hinoAudio.currentTime = 0;
-            }
-            
-            // Toca som do Bitcoin
-            if (bitcoinAudio) {
-                bitcoinAudio.currentTime = 0;
-                const playPromise = bitcoinAudio.play();
-                
-                if (playPromise !== undefined) {
-                    playPromise
-                        .then(() => {
-                            console.log('Som do Bitcoin tocando!');
-                        })
-                        .catch(error => {
-                            console.log('Erro ao tocar som do Bitcoin:', error);
-                            showAudioMessage('💰 Cha-ching! To the moon! 🚀');
-                        });
-                }
-            } else {
-                showAudioMessage('💰 Cha-ching! To the moon! 🚀');
-            }
-            
-            // Feedback visual melhorado
-            bitcoinIcon.style.transform = 'scale(1.3) rotate(-5deg)';
-            bitcoinIcon.style.filter = 'drop-shadow(0 0 20px #f7931a)';
-            setTimeout(() => {
-                bitcoinIcon.style.transform = 'scale(1)';
-                bitcoinIcon.style.filter = 'drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3))';
-            }, 300);
-        });
-    }
 }
 
 // Criar ícones flutuantes dinamicamente
 function createFloatingIcons() {
     const iconsContainer = document.querySelector('.floating-icons');
+    if (!iconsContainer) return;
+    
     const icons = ['⚽', '₿', '🏓', '🖤', '🤍', '🚀', '💪', '🏆'];
     
     setInterval(() => {
@@ -191,7 +289,7 @@ function createFloatingIcons() {
     }, 4000);
 }
 
-// Simulador de preço Bitcoin (apenas visual)
+// Simulador de preço Bitcoin
 function updateBitcoinTicker() {
     const ticker = document.querySelector('.bitcoin-ticker');
     if (!ticker) return;
@@ -210,7 +308,6 @@ function updateBitcoinTicker() {
         const randomMessage = messages[Math.floor(Math.random() * messages.length)];
         ticker.innerHTML = `₿ Bitcoin: ${randomPrice} | "${randomMessage}" 🚀`;
         
-        // Adiciona efeito visual
         ticker.style.transform = 'scale(1.05)';
         setTimeout(() => {
             ticker.style.transform = 'scale(1)';
@@ -218,13 +315,12 @@ function updateBitcoinTicker() {
     }, 6000);
 }
 
-// Animação das memórias com delay
+// Animação das memórias
 function setupMemoryAnimations() {
     const memoryItems = document.querySelectorAll('.memories-list li');
     memoryItems.forEach((item, index) => {
         item.style.setProperty('--delay', index + 1);
         
-        // Adiciona efeito hover
         item.addEventListener('mouseenter', () => {
             item.style.transform = 'scale(1.02) translateX(5px)';
         });
@@ -235,31 +331,10 @@ function setupMemoryAnimations() {
     });
 }
 
-// Efeito de parallax suave
-function setupParallax() {
-    const optimizedParallax = debounce(() => {
-        const scrolled = window.pageYOffset;
-        const header = document.querySelector('.header');
-        if (header) {
-            header.style.transform = `translateY(${scrolled * 0.03}px)`;
-        }
-        
-        // Parallax para ícones flutuantes
-        const floatingIcons = document.querySelectorAll('.floating-icon');
-        floatingIcons.forEach((icon, index) => {
-            const speed = (index % 3 + 1) * 0.01;
-            icon.style.transform += ` translateY(${scrolled * speed}px)`;
-        });
-    }, 10);
-    
-    window.addEventListener('scroll', optimizedParallax);
-}
-
-// Easter eggs e interações especiais
+// Easter eggs
 function setupEasterEggs() {
     let clickCount = 0;
     
-    // Clique múltiplo no ticker do Bitcoin
     document.addEventListener('click', function(e) {
         if (e.target.classList.contains('bitcoin-ticker') || e.target.textContent.includes('₿')) {
             clickCount++;
@@ -270,101 +345,40 @@ function setupEasterEggs() {
                 showAudioMessage('💎 Diamond hands! HODL forever! 💎');
             } else if (clickCount === 5) {
                 showAudioMessage('⚡ Bitcoin Lightning Network! ⚡');
-                clickCount = 0; // Reset
+                clickCount = 0;
             }
             
-            // Reset após 3 segundos
-            setTimeout(() => {
-                clickCount = 0;
-            }, 3000);
+            setTimeout(() => { clickCount = 0; }, 3000);
         }
     });
     
-    // Easter egg para o coração
     const heart = document.querySelector('.heart');
     if (heart) {
         heart.addEventListener('click', () => {
             showAudioMessage('❤️ Te amo muito, pai! ❤️');
-            
-            // Cria corações flutuantes
-            for (let i = 0; i < 5; i++) {
-                setTimeout(() => {
-                    createFloatingHeart();
-                }, i * 200);
-            }
         });
     }
 }
 
-// Função para criar corações flutuantes
-function createFloatingHeart() {
-    const heart = document.createElement('div');
-    heart.textContent = '❤️';
-    heart.style.cssText = `
-        position: fixed;
-        left: ${Math.random() * 100}%;
-        top: 100%;
-        font-size: 2rem;
-        pointer-events: none;
-        z-index: 1000;
-        animation: floatHeart 3s ease-out forwards;
-    `;
-    
-    // Adiciona animação para o coração
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes floatHeart {
-            to {
-                transform: translateY(-100vh) scale(0.5);
-                opacity: 0;
-            }
-        }
-    `;
-    if (!document.querySelector('#heart-animation')) {
-        style.id = 'heart-animation';
-        document.head.appendChild(style);
-    }
-    
-    document.body.appendChild(heart);
-    
-    setTimeout(() => {
-        if (heart && heart.parentNode) {
-            heart.remove();
-        }
-    }, 3000);
-}
-
-// Função para configurar o vídeo
+// Configurar vídeo
 function setupVideo() {
     const video = document.querySelector('.special-video');
     if (video) {
         video.addEventListener('loadedmetadata', () => {
-            console.log('Vídeo carregado com sucesso!');
+            console.log('🎥 Vídeo carregado com sucesso!');
         });
         
         video.addEventListener('error', (e) => {
-            console.log('Erro ao carregar vídeo:', e);
-            // Fallback: mostra mensagem
-            const videoContainer = video.parentElement;
-            videoContainer.innerHTML = `
-                <h2>Uma mensagem especial para você! 🎥</h2>
-                <p style="font-size: 1.2rem; color: #666; padding: 20px;">
-                    🎬 O vídeo está sendo preparado com muito carinho! 
-                    <br><br>
-                    Em breve você poderá assistir a essa mensagem especial! ❤️
-                </p>
-            `;
+            console.log('❌ Erro ao carregar vídeo:', e);
         });
         
-        // Adiciona controles personalizados
         video.addEventListener('play', () => {
-            console.log('Vídeo iniciado!');
-            showAudioMessage('🎬 Aproveitando o vídeo especial! 🎥');
+            console.log('▶️ Vídeo iniciado!');
         });
     }
 }
 
-// Função utilitária para debounce (otimização de performance)
+// Função utilitária debounce
 function debounce(func, wait) {
     let timeout;
     return function executedFunction(...args) {
@@ -377,190 +391,62 @@ function debounce(func, wait) {
     };
 }
 
-// Função para adicionar efeitos visuais nos cards
-function setupCardEffects() {
-    const cards = document.querySelectorAll('.card');
-    
-    cards.forEach(card => {
-        // Efeito de brilho ao passar o mouse
-        card.addEventListener('mouseenter', () => {
-            card.style.boxShadow = '0 25px 50px rgba(255, 255, 255, 0.3)';
-        });
-        
-        card.addEventListener('mouseleave', () => {
-            card.style.boxShadow = '0 15px 35px rgba(255, 255, 255, 0.1)';
-        });
-        
-        // Adiciona clique nos stats
-        const statItems = card.querySelectorAll('.stat-item');
-        statItems.forEach(stat => {
-            stat.addEventListener('click', () => {
-                stat.style.transform = 'scale(1.1)';
-                setTimeout(() => {
-                    stat.style.transform = 'scale(1)';
-                }, 200);
-            });
-        });
-    });
-}
-
-// Função para gerenciar o estado dos áudios
-function manageAudioStates() {
-    const allAudios = document.querySelectorAll('audio');
-    
-    allAudios.forEach(audio => {
-        audio.addEventListener('ended', () => {
-            console.log(`Áudio ${audio.id} terminou de tocar`);
-        });
-        
-        audio.addEventListener('canplaythrough', () => {
-            console.log(`Áudio ${audio.id} está pronto para tocar`);
-        });
-        
-        // Adiciona volume padrão
-        audio.volume = 0.7;
-    });
-}
-
-// Função para criar indicadores visuais de carregamento
-function showLoadingIndicators() {
-    const carousels = document.querySelectorAll('.photo-carousel');
-    
-    carousels.forEach(carousel => {
-        const images = carousel.querySelectorAll('img');
-        let loadedImages = 0;
-        
-        images.forEach(img => {
-            if (img.complete) {
-                loadedImages++;
-            } else {
-                img.addEventListener('load', () => {
-                    loadedImages++;
-                    if (loadedImages === images.length) {
-                        console.log('Todas as imagens do carrossel carregadas!');
-                    }
-                });
-            }
-        });
-    });
-}
-
-// Função para otimizar performance em dispositivos móveis
-function optimizeForMobile() {
-    const isMobile = window.innerWidth <= 768;
-    
-    if (isMobile) {
-        // Reduz frequência de animações flutuantes
-        const floatingIcons = document.querySelectorAll('.floating-icon');
-        floatingIcons.forEach(icon => {
-            icon.style.animationDuration = '12s'; // Mais lento em mobile
-        });
-        
-        // Reduz qualidade de algumas animações
-        const cards = document.querySelectorAll('.card');
-        cards.forEach(card => {
-            card.style.transform = 'translateY(0)'; // Remove parallax em mobile
-        });
-    }
-}
-
-// Inicialização quando o DOM estiver carregado
+// INICIALIZAÇÃO PRINCIPAL
 document.addEventListener('DOMContentLoaded', function() {
-    console.log('🖤🤍 Iniciando site do Pai Corinthiano! ₿🏓');
+    console.log('🚀 INICIANDO SITE DO PAI CORINTHIANO! 🚀');
+    console.log('⏰ DOM carregado, iniciando funcionalidades...');
     
-    // Inicia todas as funcionalidades
-    startPhotoCarousels();
-    setupAudioInteractions();
-    createFloatingIcons();
-    updateBitcoinTicker();
-    setupMemoryAnimations();
-    setupParallax();
-    setupEasterEggs();
-    setupVideo();
-    setupCardEffects();
-    manageAudioStates();
-    showLoadingIndicators();
-    optimizeForMobile();
-    
-    // Mensagem de boas-vindas no console
-    console.log(`
-    🖤🤍 SITE CARREGADO COM SUCESSO! 🖤🤍
-    ₿ Bitcoin to the moon! ₿
-    🏓 Pickleball champion! 🏓
-    ⚽ Vai Corinthians! ⚽
-    
-    Funcionalidades ativas:
-    ✅ Carrossel de fotos (4s)
-    ✅ Áudios interativos
-    ✅ Ícones flutuantes
-    ✅ Ticker Bitcoin dinâmico
-    ✅ Animações de memórias
-    ✅ Efeitos parallax
-    ✅ Easter eggs
-    ✅ Player de vídeo
-    ✅ Efeitos visuais
-    `);
-    
-    // Adiciona um delay para garantir que tudo esteja carregado
+    // Aguarda um pouco e inicia tudo
     setTimeout(() => {
-        const cards = document.querySelectorAll('.card');
-        cards.forEach((card, index) => {
-            card.style.animationDelay = `${index * 0.2}s`;
-        });
-        
-        // Força primeira troca de ticker do Bitcoin após 2 segundos
-        setTimeout(() => {
-            const ticker = document.querySelector('.bitcoin-ticker');
-            if (ticker) {
-                ticker.innerHTML = `₿ Bitcoin: $46,234 | "HODL strong, pai!" 🚀`;
-            }
-        }, 2000);
-    }, 100);
-});
-
-// Event listener adicional para garantir que os áudios funcionem
-window.addEventListener('load', function() {
-    console.log('Página totalmente carregada!');
-    
-    // Tenta pré-carregar os áudios
-    const hinoAudio = document.getElementById('hino-corinthians');
-    const bitcoinAudio = document.getElementById('bitcoin-cash');
-    
-    if (hinoAudio) {
-        hinoAudio.load();
-        console.log('Áudio do hino pré-carregado');
-    }
-    
-    if (bitcoinAudio) {
-        bitcoinAudio.load();
-        console.log('Áudio do bitcoin pré-carregado');
-    }
-    
-    // Força início do primeiro carrossel após carregamento completo
-    setTimeout(() => {
-        console.log('Iniciando carrosséis forçadamente...');
+        console.log('🎯 Iniciando carrosséis...');
         startPhotoCarousels();
-    }, 1000);
+        
+        console.log('🎵 Configurando áudios...');
+        setupAudioInteractions();
+        
+        console.log('✨ Outras funcionalidades...');
+        createFloatingIcons();
+        updateBitcoinTicker();
+        setupMemoryAnimations();
+        setupEasterEggs();
+        setupVideo();
+        
+        console.log('✅ TUDO CONFIGURADO COM SUCESSO!');
+        
+    }, 500);
 });
 
-// Event listener para redimensionamento da janela
-window.addEventListener('resize', debounce(() => {
-    optimizeForMobile();
-    console.log('Layout otimizado para nova resolução');
-}, 250));
-
-// Event listener para detectar quando usuário volta para a aba
-document.addEventListener('visibilitychange', () => {
-    if (document.visibilityState === 'visible') {
-        console.log('Usuário voltou para a página!');
-        // Reinicia animações se necessário
-        const ticker = document.querySelector('.bitcoin-ticker');
-        if (ticker) {
-            ticker.style.animation = 'none';
-            setTimeout(() => {
-                ticker.style.animation = 'pulse 3s ease-in-out infinite';
-            }, 10);
-        }
-    }
+// Listener adicional para quando página carregar completamente
+window.addEventListener('load', function() {
+    console.log('🌟 PÁGINA COMPLETAMENTE CARREGADA!');
+    
+    // Força reinicialização dos carrosséis após 2 segundos
+    setTimeout(() => {
+        console.log('🔄 Forçando reinicialização dos carrosséis...');
+        startPhotoCarousels();
+    }, 2000);
+    
+    // Força configuração dos áudios novamente
+    setTimeout(() => {
+        console.log('🔊 Reconfiguração de áudios...');
+        setupAudioInteractions();
+    }, 3000);
 });
-```
+
+// Debug: Adiciona informações no console
+console.log(`
+🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍
+       SITE DO PAI CORINTHIANO
+🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍🖤🤍
+
+✅ JavaScript carregado
+⚽ Vai Corinthians!
+₿ Bitcoin to the moon!
+🏓 Pickleball champion!
+
+Funcionalidades:
+📷 Carrossel: 4 segundos por foto
+🎵 Áudios: Clique nos ícones
+🎬 Vídeo: Player integrado
+✨ Easter eggs: Clique no ticker
+`);
