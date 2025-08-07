@@ -1,0 +1,417 @@
+/* Reset e configurações base */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Georgia', serif;
+    background: linear-gradient(135deg, #000000 0%, #333333 50%, #000000 100%);
+    min-height: 100vh;
+    color: #333;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+/* Header */
+.header {
+    text-align: center;
+    padding: 40px 0;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    border: 3px solid #000000;
+    border-radius: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 20px 40px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    animation: slideDown 1s ease-out;
+    position: relative;
+    overflow: hidden;
+}
+
+.header::before {
+    content: '⚽';
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    font-size: 2rem;
+    animation: bounce 2s ease-in-out infinite;
+}
+
+.header::after {
+    content: '🏓';
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2rem;
+    animation: bounce 2s ease-in-out infinite;
+    animation-delay: 0.5s;
+}
+
+.header h1 {
+    font-size: 3.5rem;
+    color: #000000;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    font-weight: bold;
+}
+
+.header p {
+    font-size: 1.5rem;
+    color: #333;
+    font-style: italic;
+    font-weight: bold;
+}
+
+.bitcoin-ticker {
+    background: linear-gradient(135deg, #f7931a 0%, #ffb84d 100%);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    margin: 20px 0;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1.1rem;
+    animation: pulse 3s ease-in-out infinite;
+}
+
+/* Grid de conteúdo */
+.content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Cards */
+.card {
+    background: rgba(255, 255, 255, 0.95);
+    border-radius: 20px;
+    padding: 30px;
+    box-shadow: 0 15px 35px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    transform: translateY(20px);
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.card:nth-child(1) { 
+    animation-delay: 0.2s; 
+    border-color: #000000;
+}
+.card:nth-child(2) { 
+    animation-delay: 0.4s; 
+    border-color: #f7931a;
+}
+.card:nth-child(3) { 
+    animation-delay: 0.6s; 
+    border-color: #4CAF50;
+}
+.card:nth-child(4) { 
+    animation-delay: 0.8s; 
+    border-color: #e74c3c;
+}
+
+.card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 25px 50px rgba(255, 255, 255, 0.2);
+}
+
+.card h2 {
+    font-size: 2rem;
+    color: #2c3e50;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Ícones personalizados */
+.card-icon {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+
+.card-icon:hover {
+    transform: scale(1.1);
+}
+
+.corinthians-icon:hover {
+    filter: drop-shadow(0 0 10px #000000);
+}
+
+.bitcoin-icon:hover {
+    filter: drop-shadow(0 0 10px #f7931a);
+}
+
+/* Carrossel de fotos */
+.photo-carousel {
+    width: 100%;
+    height: 250px;
+    border-radius: 15px;
+    overflow: hidden;
+    position: relative;
+    margin: 15px 0;
+    border: 3px solid transparent;
+}
+
+.corinthians-carousel {
+    border-color: #000000;
+}
+
+.bitcoin-carousel {
+    border-color: #f7931a;
+}
+
+.pickleball-carousel {
+    border-color: #4CAF50;
+}
+
+.carousel-container {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+
+.carousel-photo {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+    border-radius: 12px;
+}
+
+.carousel-photo.active {
+    opacity: 1;
+}
+
+.corinthians-card .card-icon {
+    color: #000000;
+}
+
+.bitcoin-card .card-icon {
+    color: #f7931a;
+}
+
+.pickleball-card .card-icon {
+    color: #4CAF50;
+}
+
+.memories-card .card-icon {
+    color: #e74c3c;
+}
+
+/* Lista de memórias */
+.memories-list {
+    list-style: none;
+    padding-left: 0;
+}
+
+.memories-list li {
+    color: white;
+    padding: 15px 20px;
+    margin: 10px 0;
+    border-radius: 25px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    transform: scale(0);
+    animation: popIn 0.5s ease-out forwards;
+    animation-delay: calc(var(--delay) * 0.1s);
+}
+
+.corinthians-memory {
+    background: linear-gradient(135deg, #000000 0%, #333333 100%);
+}
+
+.bitcoin-memory {
+    background: linear-gradient(135deg, #f7931a 0%, #ffb84d 100%);
+}
+
+.pickleball-memory {
+    background: linear-gradient(135deg, #4CAF50 0%, #66BB6A 100%);
+}
+
+.general-memory {
+    background: linear-gradient(135deg, #e74c3c 0%, #ff6b6b 100%);
+}
+
+/* Remove os placeholders antigos */
+
+/* Caixa de mensagem */
+.message-box {
+    background: linear-gradient(135deg, #000000 0%, #333333 50%, #000000 100%);
+    color: white;
+    border-radius: 15px;
+    padding: 25px;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    text-align: center;
+    font-style: italic;
+    box-shadow: inset 0 4px 8px rgba(0, 0, 0, 0.3);
+    border: 2px solid #f7931a;
+}
+
+/* Grid de estatísticas */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    margin: 20px 0;
+}
+
+.stat-item {
+    background: rgba(0, 0, 0, 0.1);
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #2c3e50;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 5px;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 40px;
+    background: linear-gradient(135deg, #ffffff 0%, #f0f0f0 100%);
+    border: 3px solid #000000;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    animation: fadeIn 1.5s ease-out;
+}
+
+.footer h3 {
+    font-size: 2.5rem;
+    color: #000000;
+    margin-bottom: 15px;
+}
+
+.footer p {
+    font-size: 1.3rem;
+    color: #333;
+    font-weight: bold;
+}
+
+.heart {
+    color: #e74c3c;
+    animation: heartbeat 1.5s ease-in-out infinite;
+}
+
+/* Ícones flutuantes */
+.floating-icons {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.floating-icon {
+    position: absolute;
+    font-size: 2rem;
+    animation: float 8s ease-in-out infinite;
+}
+
+/* Animações */
+@keyframes slideDown {
+    from {
+        transform: translateY(-100px);
+        opacity: 0;
+    }
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeInUp {
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    to {
+        transform: scale(1);
+    }
+}
+
+@keyframes heartbeat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+@keyframes bounce {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+}
+
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(100vh) rotate(0deg);
+        opacity: 0;
+    }
+    10%, 90% {
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(0vh) rotate(180deg);
+    }
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+    .header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .header p {
+        font-size: 1.2rem;
+    }
+    
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .card {
+        padding: 20px;
+    }
+    
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+}
